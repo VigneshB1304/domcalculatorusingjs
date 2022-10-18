@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Calculator</title>
+    <meta
+      name="description"
+      content="Calculator made in HTML, Grid CSS, Vanilla JS and given accesibility and performance in mind"
+    />
+    <meta
+      name="keywords"
+      content="calculator, vanillajs, accesibility, performance"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔢</text></svg>"
+    />
+
+    <style>
+      @font-face {
+        font-family: "Open Sans";
+        src: url("fonts/open-sans-regular.woff2") format("woff2");
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "DsDigi";
+        src: url("fonts/ds-digi-webfont.woff2") format("woff2");
+        font-display: swap;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #5dbec9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #calculator {
+        background-color: #444444;
+        width: 350px;
+        border-radius: 20px;
+        padding: 22px;
+        padding-bottom: 30px;
+      }
+
+      .panel {
+        background-color: #ffffff;
+        width: 100%;
+        height: 130px;
+        border-radius: 8px;
+        padding: 11px;
+        margin-bottom: 25px;
+      }
+
+      #display {
+        background-color: #d2d3d5;
+        height: 93px;
+        border-radius: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      #display span {
+        transform: scaleY(1.4);
+        font-size: 51pt;
+        color: #434446;
+        font-family: "DsDigi";
+      }
+
+      #keypad {
+        display: grid;
+        grid-template-rows: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 11px;
+        grid-row-gap: 19px;
+        padding: 0 11px;
+      }
+
+      #keypad button {
+        background-color: #ffffff;
+        border-radius: 9px;
+        padding: 2px 0;
+        text-align: center;
+        width: 100%;
+        font-size: 20pt;
+        color: #444444;
+        font-family: "Open Sans", sans-serif;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #keypad button:focus {
+        outline: 0;
+      }
+
+      #keypad button:active {
+        transform: scale(0.9);
+      }
+
+      #keypad button > * {
+        pointer-events: none;
+      }
+
+      #keypad button svg {
+        fill: #444444;
+        width: 16px;
+        height: 16px;
+      }
+
+      #keypad button[name="clean"] {
+        background-color: #fc573f;
+        color: #ffffff;
+        font-size: 16pt;
+      }
+
+      #keypad button[name="zero"] {
+        grid-column: 1 / span 2;
+        grid-row: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="calculator">
+      <div class="panel">
+        <div id="display">
+          <span>0</span>
+        </div>
+      </div>
+      <div id="keypad">
+        <button name="clean" aria-label="clean">C</button>
+        <button name="negate" aria-label="negate">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 141.293 141.293">
+            <defs />
+            <path
+              d="M77.955 109.975c-4.037 0-7.309 3.271-7.309 7.308s3.272 7.31 7.309 7.31h56.029c4.037 0 7.309-3.271 7.309-7.31 0-4.036-3.271-7.308-7.309-7.308H77.955zM0 44.2c0 4.037 3.272 7.308 7.309 7.308h19.489v19.49c0 4.036 3.271 7.309 7.308 7.309s7.309-3.271 7.309-7.309v-19.49H63.34c4.037 0 7.308-3.271 7.308-7.308s-3.271-7.309-7.308-7.309H41.414V12.53c0-4.037-3.272-7.308-7.309-7.308-4.037 0-7.308 3.271-7.308 7.308v24.361H7.308C3.272 36.892 0 40.164 0 44.2zM131.428 17.261c-2.854-2.855-7.481-2.855-10.336 0L14.763 123.594c-2.853 2.854-2.853 7.481 0 10.334 1.425 1.429 3.298 2.143 5.167 2.143 1.868 0 3.742-.714 5.169-2.143L131.428 27.599c2.855-2.853 2.855-7.485 0-10.338z"
+            />
+          </svg>
+        </button>
+        <button name="percent" aria-label="percent">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <defs />
+            <path
+              d="M504.936 7.136c-9.38-9.392-24.6-9.392-33.98 0L7.204 470.888c-9.388 9.384-9.388 24.592 0 33.976 4.692 4.696 10.844 7.044 16.992 7.044s12.3-2.348 16.988-7.044L504.936 41.112c9.388-9.384 9.388-24.592 0-33.976zM114.144.256C51.208.256 0 51.468 0 114.404s51.208 114.144 114.144 114.144c62.94 0 114.144-51.212 114.144-114.148S177.08.256 114.144.256zm0 180.228c-36.44 0-66.084-29.648-66.084-66.084 0-36.436 29.648-66.084 66.084-66.084 36.44 0 66.084 29.648 66.084 66.084 0 36.436-29.644 66.084-66.084 66.084zM397.856 283.596c-62.936 0-114.144 51.208-114.144 114.144s51.208 114.144 114.144 114.144S512 460.68 512 397.74s-51.208-114.144-114.144-114.144zm0 180.224c-36.44 0-66.084-29.648-66.084-66.084 0-36.436 29.648-66.084 66.084-66.084 36.436 0 66.084 29.648 66.084 66.084s-29.644 66.084-66.084 66.084z"
+            />
+          </svg>
+        </button>
+        <button name="divide" aria-label="divide">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+            <defs />
+            <path
+              d="M0 19h42v4H0zM21 13c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5zM21 29c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
+            />
+          </svg>
+        </button>
+        <button name="seven">7</button>
+        <button name="eight">8</button>
+        <button name="nine">9</button>
+        <button name="multiply" aria-label="multiply">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="105.93 105.93 271.53 271.53"
+          >
+            <defs></defs>
+            <path
+              d="M241.7 211.577L136.058 105.935l-30.123 30.123L211.577 241.7 105.935 347.342l30.123 30.123L241.7 271.823l105.642 105.642 30.122-30.123L271.823 241.7l105.641-105.642-30.122-30.123L241.7 211.577z"
+            ></path>
+          </svg>
+        </button>
+        <button name="four">4</button>
+        <button name="five">5</button>
+        <button name="six">6</button>
+        <button name="subtract" aria-label="subtract">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 298.667 298.667">
+            <defs />
+            <path d="M0 128h298.667v42.667H0z" />
+          </svg>
+        </button>
+        <button name="one">1</button>
+        <button name="two">2</button>
+        <button name="three">3</button>
+        <button name="sum" aria-label="sum">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 341.4 341.4">
+            <defs />
+            <path
+              d="M192 149.4V0h-42.6v149.4H0V192h149.4v149.4H192V192h149.4v-42.6z"
+            />
+          </svg>
+        </button>
+        <button name="zero">0</button>
+        <button name="point">·</button>
+        <button name="equals" aria-label="equal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 341.333 341.333">
+            <defs />
+            <path d="M0 192h341.333v42.667H0zM0 106.667h341.333v42.667H0z" />
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>
